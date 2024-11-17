@@ -9,7 +9,7 @@ import { PostsService } from './providers/posts.service';
 export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
-  @Get('/:userId?') 
+  @Get('')
   public getPosts(@Param('userId') userId: string) {
     return this.postsService.findAll(userId);
   }
@@ -24,7 +24,7 @@ export class PostsController {
   @Post()
   public createPost(@Body() createPostDto: CreatePostDto) {
     // console.log(createPostDto);
-    return this.postsService.create(createPostDto)
+    return this.postsService.create(createPostDto);
   }
 
   @Patch()
