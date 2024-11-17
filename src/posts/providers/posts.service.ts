@@ -56,4 +56,14 @@ export class PostsService {
 
     return posts;
   }
+
+  public async delete(id: number) {
+    const post = await this.postsRepository.findOneBy({ id });
+
+    await this.postsRepository.delete(id);
+
+    await this.metaOptionsRepository.delete(post.metaOptions.id);
+
+    return { deleted: true, id };
+  }
 }
