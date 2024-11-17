@@ -1,11 +1,5 @@
 import { MetaOption } from 'src/meta-options/meta-option.entity';
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  OneToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { postStatus } from './enums/postStatus.enum';
 import { postType } from './enums/postType.enum';
 

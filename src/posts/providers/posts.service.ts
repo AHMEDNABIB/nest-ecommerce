@@ -44,9 +44,7 @@ export class PostsService {
     return await this.postsRepository.save(post);
   }
 
-  public async findAll(userId: string) {
-    const user = this.usersService.findOneById(userId);
-
+  public async findAll() {
     // const posts = await this.postsRepository.find({
     //   relations: {
     //     metaOptions: true,
