@@ -3,7 +3,6 @@ import {
   Controller,
   Delete,
   Get,
-  Param,
   ParseIntPipe,
   Patch,
   Post,
@@ -20,8 +19,8 @@ export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
   @Get('')
-  public getPosts(@Param('userId') userId: string) {
-    return this.postsService.findAll(userId);
+  public getPosts() {
+    return this.postsService.findAll();
   }
 
   @ApiOperation({

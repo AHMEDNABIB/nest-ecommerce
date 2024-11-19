@@ -19,27 +19,13 @@ export class PostsService {
   ) {}
 
   public async create(@Body() createPostDto: CreatePostDto) {
-    // Create MetaOptions
+    const author = await this.usersService.findOneById(createPostDto.authorId);
 
-    // const metaOptions = createPostDto.metaOptions
-    //   ? this.metaOptionsRepository.create(createPostDto.metaOptions)
-    //   : null;
-
-    // if (metaOptions) {
-    //   await this.metaOptionsRepository.save(metaOptions);
-    // }
-
-    // create post
-
-    const post = this.postsRepository.create(createPostDto);
-
-    // Add metaOptions to the post
-
-    // if (metaOptions) {
-    //   post.metaOptions = metaOptions;
-    // }
-
-    // return the post
+    // Create the post
+    const post = this.postsRepository.create({
+      ...createPostDto,
+      author: author,
+    });
 
     return await this.postsRepository.save(post);
   }
@@ -48,6 +34,7 @@ export class PostsService {
     // const posts = await this.postsRepository.find({
     //   relations: {
     //     metaOptions: true,
+    //     author: true,
     //   },
     // });
     const posts = await this.postsRepository.find({});

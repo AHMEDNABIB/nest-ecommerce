@@ -26,7 +26,7 @@ export class UsersService {
     let newuser = this.userRepository.create(createUserDto);
     newuser = await this.userRepository.save(newuser);
 
-    return newuser
+    return newuser;
   }
 
   public findAll(
@@ -51,11 +51,7 @@ export class UsersService {
     ];
   }
 
-  public findOneById(id: string) {
-    return {
-      id: id,
-      firstName: 'Ahmed',
-      email: 'pollob@gmail.com',
-    };
+  public async findOneById(id: number) {
+    return await this.userRepository.findOneBy({ id });
   }
 }
