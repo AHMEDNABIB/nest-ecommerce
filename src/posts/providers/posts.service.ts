@@ -5,6 +5,7 @@ import { UsersService } from 'src/users/providers/users.service';
 import { Repository } from 'typeorm';
 // import { MetaOption } from '../../meta-options/meta-option.entity';
 import { CreatePostDto } from '../dtos/create-post.dto';
+import { PatchPostDto } from '../dtos/patch-post.dto';
 import { Post } from '../post.entity';
 
 @Injectable()
@@ -32,6 +33,31 @@ export class PostsService {
       author: author,
       tags: tags,
     });
+
+    return await this.postsRepository.save(post);
+  }
+
+  public async update(patchPostDto: PatchPostDto) {
+    // Find new tags
+    let tags = await this.tagsService.findMultipleTags(patchPostDto.tags);
+
+    // Find the post
+    let post = await this.postsRepository.findOneBy({
+      id: patchPostDto.id,
+    });
+
+    // Update post related properties
+    post.title = patchPostDto.title ?? post.title;
+    post.content = patchPostDto.content ?? post.content;
+    post.status = patchPostDto.status ?? post.status;
+    post.postType = patchPostDto.postType ?? post.postType;
+    post.slug = patchPostDto.slug ?? post.slug;
+    post.featuredImageUrl =
+      patchPostDto.featuredImageUrl ?? post.featuredImageUrl;
+    post.publishOn = patchPostDto.publishOn ?? post.publishOn;
+
+    // Update the tags
+    post.tags = tags;
 
     return await this.postsRepository.save(post);
   }
