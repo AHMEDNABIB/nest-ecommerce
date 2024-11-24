@@ -43,7 +43,12 @@ export class PostsService {
     //     author: true,
     //   },
     // });
-    const posts = await this.postsRepository.find({});
+    const posts = await this.postsRepository.find({
+      relations: {
+        metaOptions: true,
+        // tags: true,
+      },
+    });
 
     return posts;
   }

@@ -87,7 +87,7 @@ export class Post {
   author: User;
 
   // Work on these in lecture on relationships
-  @ManyToMany(() => Tag)
+  @ManyToMany(() => Tag, { eager: true })
   @JoinTable()
   tags?: Tag[];
 }
