@@ -1,8 +1,9 @@
 import { Body, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { TagsService } from 'src/tags/providers/tags.service';
 import { UsersService } from 'src/users/providers/users.service';
 import { Repository } from 'typeorm';
-import { MetaOption } from '../../meta-options/meta-option.entity';
+// import { MetaOption } from '../../meta-options/meta-option.entity';
 import { CreatePostDto } from '../dtos/create-post.dto';
 import { Post } from '../post.entity';
 
@@ -12,19 +13,24 @@ export class PostsService {
     private readonly usersService: UsersService,
 
     @InjectRepository(Post)
-    public readonly postsRepository: Repository<Post>,
+    private readonly postsRepository: Repository<Post>,
 
-    @InjectRepository(MetaOption)
-    public readonly metaOptionsRepository: Repository<MetaOption>,
+    // @InjectRepository(MetaOption)
+    // private readonly metaOptionsRepository: Repository<MetaOption>,
+
+    private readonly tagsService: TagsService,
   ) {}
 
   public async create(@Body() createPostDto: CreatePostDto) {
     const author = await this.usersService.findOneById(createPostDto.authorId);
 
+    const tags = await this.tagsService.findMultipleTags(createPostDto.tags);
+
     // Create the post
     const post = this.postsRepository.create({
       ...createPostDto,
       author: author,
+      tags: tags,
     });
 
     return await this.postsRepository.save(post);
